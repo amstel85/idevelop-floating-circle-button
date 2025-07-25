@@ -3,7 +3,7 @@
  * Plugin Name: My WhatsApp Button
  * Plugin URI: https://idevelop.vip/plugins/my-whatsapp-button
  * Description: Adds a sticky WhatsApp button to your WordPress site with customizable options.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: iDevelop
  * Author URI: https://idevelop.vip/
  * License: GPL2
@@ -74,6 +74,14 @@ class iDevelop_WhatsApp_Button {
         );
 
         add_settings_field(
+            'my_whatsapp_button_pre_filled_message',
+            __( 'Pre-filled Message', 'my-whatsapp-button' ),
+            array( $this, 'pre_filled_message_callback' ),
+            'my-whatsapp-button',
+            'my_whatsapp_button_section'
+        );
+ 
+        add_settings_field(
             'my_whatsapp_button_icon',
             __( 'Choose WhatsApp Icon', 'my-whatsapp-button' ),
             array( $this, 'icon_callback' ),
@@ -93,6 +101,38 @@ class iDevelop_WhatsApp_Button {
             'my_whatsapp_button_horizontal_position',
             __( 'Horizontal Position', 'my-whatsapp-button' ),
             array( $this, 'horizontal_position_callback' ),
+            'my-whatsapp-button',
+            'my_whatsapp_button_section'
+        );
+
+        add_settings_field(
+            'my_whatsapp_button_display_devices',
+            __( 'Display on Devices', 'my-whatsapp-button' ),
+            array( $this, 'display_devices_callback' ),
+            'my-whatsapp-button',
+            'my_whatsapp_button_section'
+        );
+
+        add_settings_field(
+            'my_whatsapp_button_delay',
+            __( 'Delay Before Appearance (seconds)', 'my-whatsapp-button' ),
+            array( $this, 'delay_callback' ),
+            'my-whatsapp-button',
+            'my_whatsapp_button_section'
+        );
+
+        add_settings_field(
+            'my_whatsapp_button_scroll_percentage',
+            __( 'Appear After Scrolling (%)', 'my-whatsapp-button' ),
+            array( $this, 'scroll_percentage_callback' ),
+            'my-whatsapp-button',
+            'my_whatsapp_button_section'
+        );
+
+        add_settings_field(
+            'my_whatsapp_button_open_new_tab',
+            __( 'Open chat in new tab', 'my-whatsapp-button' ),
+            array( $this, 'open_new_tab_callback' ),
             'my-whatsapp-button',
             'my_whatsapp_button_section'
         );
@@ -124,6 +164,16 @@ class iDevelop_WhatsApp_Button {
         echo '<p class="description">' . __( 'Enter your WhatsApp phone number including country code (e.g., +972521234567).', 'my-whatsapp-button' ) . '</p>';
     }
 
+    /**
+     * Pre-filled message field callback
+     */
+    public function pre_filled_message_callback() {
+        $options = get_option( 'my_whatsapp_button_options' );
+        $message = isset( $options['pre_filled_message'] ) ? sanitize_textarea_field( $options['pre_filled_message'] ) : '';
+        echo '<textarea name="my_whatsapp_button_options[pre_filled_message]" rows="5" cols="50">' . esc_textarea( $message ) . '</textarea>';
+        echo '<p class="description">' . __( 'Enter a pre-filled message for the WhatsApp chat. Use placeholders like {{url}} for current page URL, {{title}} for current page title, and {{field_name}} for custom field values.', 'my-whatsapp-button' ) . '</p>';
+    }
+ 
     /**
      * Icon selection callback
      */
@@ -175,6 +225,59 @@ class iDevelop_WhatsApp_Button {
     }
 
     /**
+     * Display on Devices callback
+     */
+    public function display_devices_callback() {
+        $options = get_option( 'my_whatsapp_button_options' );
+        $selected_devices = isset( $options['display_devices'] ) ? (array) $options['display_devices'] : array('desktop', 'mobile', 'tablet');
+
+        echo '<label>';
+        echo '<input type="checkbox" name="my_whatsapp_button_options[display_devices][]" value="desktop"' . checked( in_array( 'desktop', $selected_devices ), true, false ) . ' /> ';
+        echo __( 'Desktop', 'my-whatsapp-button' );
+        echo '</label><br>';
+
+        echo '<label>';
+        echo '<input type="checkbox" name="my_whatsapp_button_options[display_devices][]" value="mobile"' . checked( in_array( 'mobile', $selected_devices ), true, false ) . ' /> ';
+        echo __( 'Mobile', 'my-whatsapp-button' );
+        echo '</label><br>';
+
+        echo '<label>';
+        echo '<input type="checkbox" name="my_whatsapp_button_options[display_devices][]" value="tablet"' . checked( in_array( 'tablet', $selected_devices ), true, false ) . ' /> ';
+        echo __( 'Tablet', 'my-whatsapp-button' );
+        echo '</label>';
+    }
+
+    /**
+     * Delay Before Appearance callback
+     */
+    public function delay_callback() {
+        $options = get_option( 'my_whatsapp_button_options' );
+        $delay = isset( $options['delay'] ) ? intval( $options['delay'] ) : 0;
+        echo '<input type="number" name="my_whatsapp_button_options[delay]" value="' . esc_attr( $delay ) . '" min="0" />';
+        echo '<p class="description">' . __( 'Enter the number of seconds before the button appears. Set to 0 for no delay.', 'my-whatsapp-button' ) . '</p>';
+    }
+
+    /**
+     * Appear After Scrolling (%) callback
+     */
+    public function scroll_percentage_callback() {
+        $options = get_option( 'my_whatsapp_button_options' );
+        $scroll_percentage = isset( $options['scroll_percentage'] ) ? intval( $options['scroll_percentage'] ) : 0;
+        echo '<input type="number" name="my_whatsapp_button_options[scroll_percentage]" value="' . esc_attr( $scroll_percentage ) . '" min="0" max="100" />';
+        echo '<p class="description">' . __( 'Enter the percentage of the page scrolled before the button appears. Set to 0 to appear immediately.', 'my-whatsapp-button' ) . '</p>';
+    }
+
+    /**
+     * Open in new tab checkbox callback
+     */
+    public function open_new_tab_callback() {
+        $options = get_option( 'my_whatsapp_button_options' );
+        $checked = isset( $options['open_new_tab'] ) ? checked( 1, $options['open_new_tab'], false ) : '';
+        echo '<input type="checkbox" name="my_whatsapp_button_options[open_new_tab]" value="1"' . $checked . ' />';
+        echo '<p class="description">' . __( 'Check this box to open the WhatsApp chat in a new browser tab.', 'my-whatsapp-button' ) . '</p>';
+    }
+
+    /**
      * Settings page HTML
      */
     public function settings_page_html() {
@@ -200,7 +303,20 @@ class iDevelop_WhatsApp_Button {
 
         // Only enqueue if the button is enabled and phone number is set
         if ( isset( $options['enable'] ) && $options['enable'] && ! empty( $options['phone'] ) ) {
-            wp_enqueue_style( 'my-whatsapp-button-style', plugins_url( 'my-whatsapp-button.css', __FILE__ ) );
+            wp_enqueue_style( 'my-whatsapp-button-style', plugins_url( 'idevelop-whatsapp-button.css', __FILE__ ) );
+
+            // Enqueue JavaScript for display conditions
+            wp_enqueue_script( 'my-whatsapp-button-script', plugins_url( 'idevelop-whatsapp-button.js', __FILE__ ), array(), '1.0.1', true );
+
+            // Pass options to JavaScript
+            wp_localize_script( 'my-whatsapp-button-script', 'myWhatsappButton', array(
+                'delay' => isset( $options['delay'] ) ? intval( $options['delay'] ) : 0,
+                'scroll_percentage' => isset( $options['scroll_percentage'] ) ? intval( $options['scroll_percentage'] ) : 0,
+                'display_devices' => isset( $options['display_devices'] ) ? (array) $options['display_devices'] : array('desktop', 'mobile', 'tablet'),
+                'open_new_tab' => isset( $options['open_new_tab'] ) ? (bool) $options['open_new_tab'] : true, // Default to true for backward compatibility
+                'pre_filled_message' => isset( $options['pre_filled_message'] ) ? sanitize_textarea_field( $options['pre_filled_message'] ) : '',
+                'phone' => isset( $options['phone'] ) ? sanitize_text_field( $options['phone'] ) : '',
+            ) );
         }
     }
 
@@ -216,6 +332,7 @@ class iDevelop_WhatsApp_Button {
         }
 
         $phone = sanitize_text_field( $options['phone'] );
+        $pre_filled_message = isset( $options['pre_filled_message'] ) ? sanitize_textarea_field( $options['pre_filled_message'] ) : '';
         $icon_choice = isset( $options['icon'] ) ? $options['icon'] : 'icon1';
         $vertical_pos = isset( $options['vertical_position'] ) ? $options['vertical_position'] : 'bottom';
         $horizontal_pos = isset( $options['horizontal_position'] ) ? $options['horizontal_position'] : 'right';
@@ -233,11 +350,11 @@ class iDevelop_WhatsApp_Button {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 50%;
             overflow: hidden;
-            display: flex;
             justify-content: center;
             align-items: center;
             width: 50px; /* Default size */
             height: 50px; /* Default size */
+            display: none; /* Hidden by default, controlled by JS */
         }
         .my-whatsapp-button img {
             width: 100%;
@@ -280,7 +397,12 @@ class iDevelop_WhatsApp_Button {
         echo '<style>' . $dynamic_css . '</style>';
 
         // Output the button HTML
-        echo '<a href="https://wa.me/' . esc_attr( $phone ) . '" class="my-whatsapp-button" target="_blank" rel="noopener noreferrer">';
+        $target_attr = isset( $options['open_new_tab'] ) && $options['open_new_tab'] ? 'target="_blank" rel="noopener noreferrer"' : '';
+        $whatsapp_url = 'https://wa.me/' . esc_attr( $phone );
+        if ( ! empty( $pre_filled_message ) ) {
+            $whatsapp_url .= '?text=' . urlencode( $pre_filled_message );
+        }
+        echo '<a href="' . esc_url( $whatsapp_url ) . '" class="my-whatsapp-button" ' . $target_attr . '>';
         echo '<img src="' . esc_url( $icon_url ) . '" alt="WhatsApp" />';
         echo '</a>';
     }
