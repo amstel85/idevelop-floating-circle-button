@@ -1,0 +1,6 @@
+/* You can add any base styles here, but most positioning is handled by dynamic CSS in PHP */
+/* For example, if you want to add a hover effect */
+.my-whatsapp-button:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
