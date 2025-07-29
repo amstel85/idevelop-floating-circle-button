@@ -1,19 +1,19 @@
 /* You can add any base styles here, but most positioning is handled by dynamic CSS in PHP */
 /* For example, if you want to add a hover effect */
-.idevelop-floating-button:hover {
+.idevelop-floating-circle-button:hover {
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
 
 /* Styles for the text label */
-.idevelop-floating-button {
+.idevelop-floating-circle-button {
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none; /* Ensure no underline on the button itself */
 }
 
-.idevelop-floating-button-label {
+.idevelop-floating-circle-button-label {
     margin-left: 8px; /* Space between icon and text */
     font-size: 16px;
     color: #fff; /* Default text color */
@@ -25,13 +25,13 @@
     opacity: 0;
 }
 
-.idevelop-floating-button:hover .idevelop-floating-button-label {
+.idevelop-floating-circle-button:hover .idevelop-floating-circle-button-label {
     max-width: 200px; /* Adjust as needed to reveal text */
     opacity: 1;
 }
 
 /* Call-to-action text on hover (using a data attribute for content) */
-.idevelop-floating-button::before {
+.idevelop-floating-circle-button::before {
     content: attr(data-cta-text);
     position: absolute;
     bottom: 100%; /* Position above the button */
@@ -49,7 +49,7 @@
     pointer-events: none; /* Allow clicks to pass through */
 }
 
-.idevelop-floating-button:hover::before {
+.idevelop-floating-circle-button:hover::before {
     opacity: 1;
     visibility: visible;
     bottom: calc(100% + 10px); /* Move up slightly on hover */
@@ -77,10 +77,10 @@
     }
 }
 
-.idevelop-floating-button.animate-pulse {
+.idevelop-floating-circle-button.animate-pulse {
     animation: pulse 2s infinite;
 }
 
-.idevelop-floating-button.animate-fade-in {
+.idevelop-floating-circle-button.animate-fade-in {
     animation: fadeIn 1s ease-out forwards;
 }

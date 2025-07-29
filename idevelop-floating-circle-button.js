@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const button = document.querySelector('.idevelop-floating-button');
+    const button = document.querySelector('.idevelop-floating-circle-button');
     
     // Add text label if provided
     const options = idevelopFloatingButton; // Localized script data
 
     if (options && options.text_label) {
         const textLabel = document.createElement('span');
-        textLabel.classList.add('idevelop-floating-button-label');
+        textLabel.classList.add('idevelop-floating-circle-button-label');
         textLabel.textContent = options.text_label;
         button.appendChild(textLabel);
     }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let match;
         while ((match = customFieldRegex.exec(message)) !== null) {
             const fieldName = match[1];
-            const fieldElement = document.querySelector(`[data-floating-button-field="${fieldName}"]`);
+            const fieldElement = document.querySelector(`[data-floating-circle-button-field="${fieldName}"]`);
             if (fieldElement) {
                 const fieldValue = encodeURIComponent(fieldElement.textContent.trim());
                 message = message.replace(new RegExp(`{{${fieldName}}}`, 'g'), fieldValue);
