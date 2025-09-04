@@ -5,8 +5,8 @@ Description: This plugin adds a customizable Floating Circle Button to your Word
 Version: 1.0.2
 Author: iDevelop
 Author URI: https://idevelop.vip/
+Contributors: idevelop
 Text Domain: idevelop-floating-circle-button
-Domain Path: /languages
 Requires at least: 5.0
 Tested up to: 6.8
 Stable tag: 1.0.2
