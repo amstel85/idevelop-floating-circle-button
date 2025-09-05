@@ -2,14 +2,14 @@
 Plugin Name: Floating Circle Button
 Plugin URI: https://idevelop.vip/
 Description: This plugin adds a customizable Floating Circle Button to your WordPress website, now with enhanced features and bug fixes.
-Version: 1.0.2
+Version: 1.0.3
 Author: iDevelop
 Author URI: https://idevelop.vip/
 Contributors: idevelop
 Text Domain: idevelop-floating-circle-button
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 A simple Floating Circle Button for your WordPress site.

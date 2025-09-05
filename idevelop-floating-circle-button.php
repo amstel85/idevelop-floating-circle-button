@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Floating Circle Button
- * Plugin URI: https://idevelop.vip/plugins/my-floating-circle-button
+ * Plugin URI: https://idevelop.vip/plugins/plugin/idevelop-floating-circle-button/
  * Description: Adds a sticky Floating Circle button to your WordPress site with customizable options.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: iDevelop
- * Author URI: https://idevelop.vip/
+ * Author URI: https://idevelop.vip/plugins
  * License: GPL2
  */
 
